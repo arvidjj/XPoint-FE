@@ -9,6 +9,7 @@ const Login = lazy(() => import('../pages/auth/Login'));
 const Register = lazy(() => import('../pages/auth/Register'));
 const Home = lazy(() => import('../pages/home/Home'));
 const Booking = lazy(() => import('../pages/booking/Reserva'));
+const MisReservas = lazy(() => import('../pages/booking/MisReservas'));
 
 // Loading component
 const Loading = () => <div>Loading...</div>;
@@ -75,6 +76,16 @@ const routes: RouteObject[] = [
       <Layout>
         <Suspense fallback={<Loading />}>
           <Booking />
+        </Suspense>
+      </Layout>
+    ),
+  },
+  {
+    path: '/mis-reservas',
+    element: (
+      <Layout>
+        <Suspense fallback={<Loading />}>
+          <MisReservas />
         </Suspense>
       </Layout>
     ),

@@ -10,6 +10,7 @@ const AppRoutes = () => {
         <Route path="/register" element={routes[1].element} />
         <Route path="/" element={routes[2].element} />
         <Route path="/booking" element={routes[6].element} />
+        <Route path="/mis-reservas" element={routes[7].element} />
         
         {/* Protected routes */}
         <Route element={<PrivateRoute />}>
