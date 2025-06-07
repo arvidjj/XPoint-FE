@@ -1,0 +1,84 @@
+import { lazy, Suspense } from 'react';
+import type { RouteObject } from 'react-router-dom';
+import Layout from '../components/Layout';
+
+// Lazy load page components
+const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'));
+const Appointments = lazy(() => import('../pages/appointments/Appointments'));
+const Login = lazy(() => import('../pages/auth/Login'));
+const Register = lazy(() => import('../pages/auth/Register'));
+const Home = lazy(() => import('../pages/home/Home'));
+const Booking = lazy(() => import('../pages/booking/Reserva'));
+
+// Loading component
+const Loading = () => <div>Loading...</div>;
+
+// Define routes
+const routes: RouteObject[] = [
+  {
+    path: '/login',
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Login />
+      </Suspense>   
+    ),
+  },
+  {
+    path: '/register',
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Register />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/', //should be default
+    element: (
+      <Layout>
+      <Suspense fallback={<Loading />}>
+        <Home />
+      </Suspense>
+      </Layout>
+    ),
+  },
+  {
+    path: '/dashboard',
+    element: (
+      <Layout>
+        <Suspense fallback={<Loading />}>
+          <Dashboard />
+        </Suspense>
+      </Layout>
+    ),
+  },
+  {
+    path: '/appointments',
+    element: (
+      <Layout>
+        <Suspense fallback={<Loading />}>
+          <Appointments />
+        </Suspense>
+      </Layout>
+    ),
+  },
+  {
+    path: '*',
+    element: (
+      <Layout>
+        <div>Not Found</div>
+      </Layout>
+    ),
+  },
+  {
+    path: '/booking',
+    element: (
+      <Layout>
+        <Suspense fallback={<Loading />}>
+          <Booking />
+        </Suspense>
+      </Layout>
+    ),
+  },
+];
+
+export default routes;
