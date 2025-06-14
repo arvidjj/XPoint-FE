@@ -1,8 +1,9 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from '../context/AuthContext';
 import AppRoutes from './routes';
 import './App.css';
+import QueryProvider from './QueryProvider';
 
 // Create a theme instance.
 const theme = createTheme({
@@ -53,11 +54,13 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <AuthProvider>
-          <AppRoutes />
-        </AuthProvider>
-      </Router>
+      <QueryProvider>
+        <Router>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
+        </Router>
+      </QueryProvider>
     </ThemeProvider>
   );
 }

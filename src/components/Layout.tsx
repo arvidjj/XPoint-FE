@@ -27,7 +27,8 @@ import {
   AccountCircle as AccountIcon,
   Home as HomeIcon,
   Login as LoginIcon,
-  PersonAdd as PersonAddIcon
+  PersonAdd as PersonAddIcon,
+  EventAvailable
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { AdminOnly } from './ProtectedComponent';
@@ -127,6 +128,26 @@ export default function Layout({ children }: LayoutProps) {
           >
             <HomeIcon />
           </IconButton>
+
+          {user?.role === 'user' && (
+            <Button 
+              color="inherit" 
+              startIcon={<LoginIcon />}
+              onClick={() => navigate('/booking')}
+              sx={{ mr: 1 }}
+            >
+              Booking
+            </Button>
+          )}
+
+          <Button 
+            color="inherit" 
+            startIcon={<EventAvailable />}
+            onClick={() => navigate('/mis-reservas')}
+            sx={{ mr: 1 }}
+            >
+              Mis reservas
+            </Button>
 
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             {/*getPageTitle()*/}

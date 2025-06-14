@@ -1,15 +1,15 @@
 import { lazy, Suspense } from 'react';
 import type { RouteObject } from 'react-router-dom';
-import Layout from '../components/Layout';
+import Layout from '../../components/Layout';
 
 // Lazy load page components
-const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'));
-const Appointments = lazy(() => import('../pages/appointments/Appointments'));
-const Login = lazy(() => import('../pages/auth/Login'));
-const Register = lazy(() => import('../pages/auth/Register'));
-const Home = lazy(() => import('../pages/home/Home'));
-const Booking = lazy(() => import('../pages/booking/Reserva'));
-const MisReservas = lazy(() => import('../pages/booking/MisReservas'));
+const Dashboard = lazy(() => import('./dashboard/Dashboard'));
+const Appointments = lazy(() => import('./appointments/Appointments'));
+const Login = lazy(() => import('./auth/Login'));
+const Register = lazy(() => import('./auth/Register'));
+const Home = lazy(() => import('./home/Home'));
+const Booking = lazy(() => import('./booking/Reserva'));
+const MisReservas = lazy(() => import('./booking/MisReservas'));
 
 // Loading component
 const Loading = () => <div>Loading...</div>;
