@@ -5,8 +5,22 @@ import {
   TextField,
 } from "@mui/material";
 import { useForm } from "@tanstack/react-form";
+import { z } from "zod/v4";
+import type { CreateServicioRequest } from "../create-servicio";
 
-export const CreateServicio = () => {
+const createServicioSchema = z.object({
+  nombre: z.string().min(1, "El nombre es requerido"),
+  descripcion: z.string().optional(),
+  precio: z.number().positive("El precio debe ser un número positivo"),
+  duracionMinutos: z.number().positive("La duración debe ser un número positivo"),
+  categoria: z.string().min(1, "La categoría es requerida"),
+});
+
+type CreateServicioProps = {
+  onSubmit: (data: CreateServicioRequest) => void;
+};
+
+export const CreateServicio = ({ onSubmit }: CreateServicioProps) => {
   const form = useForm({
     defaultValues: {
       nombre: "",
@@ -14,23 +28,21 @@ export const CreateServicio = () => {
       precio: 0,
       duracionMinutos: 0,
       categoria: "",
+    } as CreateServicioRequest,
+    validators: {
+      onBlur: createServicioSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log("Servicio creado:", value);
+      console.log("Form submitted with values:", value);
+      onSubmit(value);
     },
   });
 
   return (
-    <form onSubmit={(e) => {e.preventDefault();form.handleSubmit();}}>
+    <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
       <Stack spacing={2}>
         {/** Nombre */}
-        <form.Field
-          name="nombre"
-          validators={{
-            onChange: ({ value }) =>
-              value.trim() === "" ? "El nombre es requerido" : undefined,
-          }}
-        >
+        <form.Field name="nombre">
           {(field) => (
             <TextField
               label="Nombre del servicio"
@@ -38,7 +50,11 @@ export const CreateServicio = () => {
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
               error={field.state.meta.errors.length > 0}
-              helperText={field.state.meta.errors.join(", ") || " "}
+              helperText={
+                field.state.meta.errors
+                  .map((e) => typeof e === "string" ? e : (e?.message || String(e)))
+                  .join(", ") || " "
+              }
             />
           )}
         </form.Field>
@@ -49,70 +65,57 @@ export const CreateServicio = () => {
             <TextField
               label="Descripción del servicio"
               variant="outlined"
-              multiline
-              rows={3}
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              helperText={
+                field.state.meta.errors
+                  .map((e) => typeof e === "string" ? e : (e?.message || String(e)))
+                  .join(", ") || " "
+              }
             />
           )}
         </form.Field>
 
         {/** Precio */}
-        <form.Field
-          name="precio"
-          validators={{
-            onChange: ({ value }) => {
-              return isNaN(value) || value <= 0
-                ? "El precio debe ser un número positivo"
-                : undefined;
-            },
-          }}
-        >
+        <form.Field name="precio">
           {(field) => (
             <TextField
               label="Precio"
               variant="outlined"
               type="number"
               value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              onChange={(e) => field.handleChange(Number(e.target.value))}
               error={field.state.meta.errors.length > 0}
-              helperText={field.state.meta.errors.join(", ") || " "}
+              helperText={
+                field.state.meta.errors
+                  .map((e) => typeof e === "string" ? e : (e?.message || String(e)))
+                  .join(", ") || " "
+              }
             />
           )}
         </form.Field>
 
         {/** Duración */}
-        <form.Field
-          name="duracionMinutos"
-          validators={{
-            onChange: ({ value }) => {
-              return isNaN(value) || value <= 0
-                ? "La duración debe ser un número positivo"
-                : undefined;
-            },
-          }}
-        >
+        <form.Field name="duracionMinutos">
           {(field) => (
             <TextField
               label="Duración (minutos)"
               variant="outlined"
               type="number"
               value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              onChange={(e) => field.handleChange(Number(e.target.value))}
               error={field.state.meta.errors.length > 0}
-              helperText={field.state.meta.errors.join(", ") || " "}
+              helperText={
+                field.state.meta.errors
+                  .map((e) => typeof e === "string" ? e : (e?.message || String(e)))
+                  .join(", ") || " "
+              }
             />
           )}
         </form.Field>
 
         {/** Categoría */}
-        <form.Field
-          name="categoria"
-          validators={{
-            onChange: ({ value }) =>
-              value.trim() === "" ? "La categoría es requerida" : undefined,
-          }}
-        >
+        <form.Field name="categoria" >
           {(field) => (
             <TextField
               label="Categoría"
@@ -120,7 +123,11 @@ export const CreateServicio = () => {
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
               error={field.state.meta.errors.length > 0}
-              helperText={field.state.meta.errors.join(", ") || " "}
+              helperText={
+                field.state.meta.errors
+                  .map((e) => typeof e === "string" ? e : (e?.message || String(e)))
+                  .join(", ") || " "
+              }
             />
           )}
         </form.Field>
