@@ -10,6 +10,7 @@ const Register = lazy(() => import('./auth/Register'));
 const Home = lazy(() => import('./home/Home'));
 const Booking = lazy(() => import('./booking/Reserva'));
 const MisReservas = lazy(() => import('./booking/MisReservas'));
+const Servicios = lazy(() => import('./booking/Servicios'));
 
 // Loading component
 const Loading = () => <div>Loading...</div>;
@@ -90,6 +91,17 @@ const routes: RouteObject[] = [
       </Layout>
     ),
   },
+  {
+    path: '/servicios',
+    element: (
+      <Layout>
+        <Suspense fallback={<Loading />}>
+          <Servicios />
+        </Suspense>
+      </Layout>
+    ),
+  },
+
 ];
 
 export default routes;

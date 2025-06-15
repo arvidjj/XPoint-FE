@@ -28,7 +28,8 @@ import {
   Home as HomeIcon,
   Login as LoginIcon,
   PersonAdd as PersonAddIcon,
-  EventAvailable
+  EventAvailable,
+  HomeRepairService
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { AdminOnly } from './ProtectedComponent';
@@ -75,6 +76,7 @@ export default function Layout({ children }: LayoutProps) {
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
     { text: 'Appointments', icon: <CalendarIcon />, path: '/appointments' },
+    { text: 'Servicios', icon: <HomeRepairService />, path: '/servicios' },
   ];
 
   const drawer = (
