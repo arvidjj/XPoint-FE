@@ -1,6 +1,6 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AuthProvider } from '../context/AuthContext';
+import { AuthProvider } from '../features/auth/context/AuthContext';
 import AppRoutes from './routes';
 import './App.css';
 import QueryProvider from './QueryProvider';

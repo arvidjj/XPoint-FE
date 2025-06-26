@@ -14,7 +14,7 @@ import {
   CircularProgress
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -26,7 +26,6 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/');
     } catch (err) {
       console.error('Login failed:', err);
     }
@@ -49,7 +48,7 @@ const Login = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Iniciar sesión
             </Typography>
           </Box>
           
@@ -65,7 +64,7 @@ const Login = () => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
@@ -78,7 +77,7 @@ const Login = () => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Contraseña"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -93,11 +92,11 @@ const Login = () => {
               sx={{ mt: 3, mb: 2 }}
               disabled={loading}
             >
-              {loading ? <CircularProgress size={24} /> : 'Sign In'}
+              {loading ? <CircularProgress size={24} /> : 'Iniciar sesión'}
             </Button>
             <Box sx={{ textAlign: 'center' }}>
               <MuiLink component={Link} to="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+                {"No tienes una cuenta? Regístrate"}
               </MuiLink>
             </Box>
           </Box>

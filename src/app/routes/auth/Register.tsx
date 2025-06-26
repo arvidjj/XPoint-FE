@@ -13,7 +13,7 @@ import {
   CircularProgress
 } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -29,21 +29,20 @@ const Register = () => {
     
     // Basic validation
     if (password !== confirmPassword) {
-      setError("Passwords don't match");
+      setError("Las contraseñas no coinciden");
       return;
     }
     
     if (password.length < 6) {
-      setError("Password must be at least 6 characters long");
+      setError("La contraseña debe tener al menos 6 caracteres");
       return;
     }
     
     try {
       await register(name, email, password);
-      navigate('/');
     } catch (err) {
       console.error('Registration failed:', err);
-      setError(authError || 'Registration failed. Please try again.');
+      setError(authError || 'Error al registrar. Por favor, intente nuevamente.');
     }
   };
 
@@ -63,7 +62,7 @@ const Register = () => {
               <PersonAddIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Create an account
+              Crear una cuenta
             </Typography>
           </Box>
           
@@ -79,7 +78,7 @@ const Register = () => {
               required
               fullWidth
               id="name"
-              label="Full Name"
+              label="Nombre Completo"
               name="name"
               autoComplete="name"
               autoFocus
@@ -92,7 +91,7 @@ const Register = () => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               value={email}
@@ -104,21 +103,21 @@ const Register = () => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Contraseña"
               type="password"
               id="password"
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
-              helperText="Password must be at least 6 characters long"
+              helperText="La contraseña debe tener al menos 6 caracteres"
             />
             <TextField
               margin="normal"
               required
               fullWidth
               name="confirmPassword"
-              label="Confirm Password"
+              label="Confirmar Contraseña"
               type="password"
               id="confirmPassword"
               value={confirmPassword}
@@ -132,11 +131,11 @@ const Register = () => {
               sx={{ mt: 3, mb: 2 }}
               disabled={loading}
             >
-              {loading ? <CircularProgress size={24} /> : 'Sign Up'}
+              {loading ? <CircularProgress size={24} /> : 'Registrar'}
             </Button>
             <Box sx={{ textAlign: 'center' }}>
               <MuiLink component={Link} to="/login" variant="body2">
-                Already have an account? Sign in
+                Ya tienes una cuenta? Inicia sesión
               </MuiLink>
             </Box>
           </Box>

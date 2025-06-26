@@ -31,7 +31,7 @@ import {
   EventAvailable,
   HomeRepairService
 } from '@mui/icons-material';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../features/auth/context/AuthContext';
 import { AdminOnly } from './ProtectedComponent';
 
 const drawerWidth = 240;  
@@ -189,7 +189,7 @@ export default function Layout({ children }: LayoutProps) {
                   <ListItemIcon>
                     <LogoutIcon fontSize="small" />
                   </ListItemIcon>
-                  Logout
+                  Cerrar Sesión
                 </MenuItem>
               </Menu>
             </div>
@@ -201,7 +201,7 @@ export default function Layout({ children }: LayoutProps) {
                 onClick={() => navigate('/login')}
                 sx={{ mr: 1 }}
               >
-                Login
+                Iniciar Sesión
               </Button>
               <Button 
                 variant="outlined" 
@@ -209,7 +209,7 @@ export default function Layout({ children }: LayoutProps) {
                 startIcon={<PersonAddIcon />}
                 onClick={() => navigate('/register')}
               >
-                Register
+                Registrarse
               </Button>
             </div>
           )}

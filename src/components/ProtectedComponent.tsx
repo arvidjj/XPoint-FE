@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { useAuth, type UserRole } from '../context/AuthContext';
+import { useAuth, type UserRole } from '../features/auth/context/AuthContext';
 
 type ProtectedRouteProps = {
   children: ReactNode;
