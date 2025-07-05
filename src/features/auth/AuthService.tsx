@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import api from "../../api/api";
-import type { AuthUser } from "./shared/authUser";
+import type { AuthUser } from "./shared/AuthUser";
 
 const RegisterRequestSchema = z.object({
     nombre: z.string(),

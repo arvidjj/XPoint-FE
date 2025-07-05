@@ -4,6 +4,7 @@ import { AuthProvider } from '../features/auth/context/AuthContext';
 import AppRoutes from './routes';
 import './App.css';
 import QueryProvider from './QueryProvider';
+import ServicioProvider from './ServicioProvider';
 
 // Create a theme instance.
 const theme = createTheme({
@@ -57,7 +58,9 @@ function App() {
       <QueryProvider>
         <Router>
           <AuthProvider>
-            <AppRoutes />
+            <ServicioProvider>
+              <AppRoutes />
+            </ServicioProvider>
           </AuthProvider>
         </Router>
       </QueryProvider>

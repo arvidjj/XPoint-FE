@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { 
-  Typography, 
-  Paper, 
-  Button, 
+import {
+  Typography,
+  Paper,
+  Button,
   Box,
   Card,
   CardContent,
@@ -26,17 +26,19 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { format, addDays } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useCreateReserva } from '../../../features/reservas/create-reserva';
 
 const avaliableTimes: String[] = [
-    "14:00", "16:00", "18:00", "20:00"
+  "14:00", "16:00", "18:00", "20:00"
 ]
 
 const Reserva = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<String | null>(null);
   const [timeSlots, setTimeSlots] = useState<String[]>([]);
-
   const [reservado, setReservado] = useState<boolean>(false);
+  
+  const createReservaMutation = useCreateReserva();
 
   // Filter out weekends and past dates
   const isWeekend = (date: Date) => {
@@ -60,23 +62,34 @@ const Reserva = () => {
 
   const handleSubmit = () => {
     if (selectedDate && selectedTime) {
-      alert(`Reserva confirmada para el ${format(selectedDate, 'PP')} a las ${selectedTime}`);
-      const reserva = {
-        date: selectedDate,
-        time: selectedTime
-      }
-      console.log(reserva);
-      setReservado(true);
+      const [hours, minutes] = selectedTime.split(':');
+      const horaInicio = `${hours}:${minutes}:00`;
+      const horaFin = `${Number(hours) + 1}:${minutes}:00`;
+
+      createReservaMutation.mutate({
+        fecha: selectedDate,
+        horaInicio,
+        horaFin,
+        usuarioId: '1', // You'll need to get this from your auth context
+        precio: 50, // You might want to make this dynamic
+        notas: '',
+        servicioId: '1'
+      }, {
+        onSuccess: () => {
+          alert(`Reserva confirmada para el ${format(selectedDate, 'PP')} a las ${selectedTime}`);
+          setReservado(true);
+        }
+      });
     }
   };
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
+      <Paper elevation={3} sx={{ p: 4, borderRadius: 2, minWidth: '500px' }}>
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ mb: 4 }}>
           Reserva tu cita
         </Typography>
-        
+
         <Box sx={{ mb: 4 }}>
           <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
             <DatePicker
@@ -100,11 +113,11 @@ const Reserva = () => {
             <TimeSlotGrid>
               {timeSlots.map((time, index) => (
                 <TimeSlotItem key={index}>
-                  <Card 
+                  <Card
                     variant={selectedTime === time ? 'elevation' : 'outlined'}
                     elevation={selectedTime === time ? 3 : 0}
                   >
-                    <CardActionArea 
+                    <CardActionArea
                       onClick={() => handleTimeSelect(time)}
                       sx={{ height: '100%' }}
                       disabled={reservado}
@@ -124,14 +137,14 @@ const Reserva = () => {
 
         {selectedTime && (
           <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               size="large"
               onClick={handleSubmit}
               sx={{ px: 4 }}
-              disabled={reservado}
+              disabled={reservado || createReservaMutation.isPending}
             >
-              Confirmar reserva para {selectedTime}
+              {createReservaMutation.isPending ? 'Confirmando...' : `Confirmar reserva para ${selectedTime}`}
             </Button>
           </Box>
         )}

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, type ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../AuthService';
-import type { AuthUser } from '../shared/authUser';
+import type { AuthUser } from '../shared/AuthUser';
 
 type AuthContextType = {
   user: AuthUser | null;
@@ -32,11 +32,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Check if user is logged in on initial load
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
     if (token) {
+      whoami().then((response) => {
+        setUser(response);
+      });
     }
     setLoading(false);
   }, []);
+
+  const whoami = async () => {
+    const response = await AuthService.whoami(localStorage.getItem(AUTH_TOKEN_KEY) || '');
+    return response as AuthUser;
+  }
 
   const login = async (email: string, password: string) => {
     try {
@@ -52,7 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       navigate('/');
     } catch (err) {
-      setError('Failed to login. Please check your credentials.');
+      setError('Error al iniciar sesión. Por favor, intente nuevamente.');
       console.error('Login error:', err);
     } finally {
       setLoading(false);
@@ -68,7 +76,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       
       navigate('/');
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      setError('Error al registrar. Por favor, intente nuevamente.');
       console.error('Registration error:', err);
     } finally {
       setLoading(false);

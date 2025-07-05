@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import Layout from '../../components/Layout';
+import InitServicio from './initservicio/InitServicio';
 
 // Lazy load page components
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
@@ -101,7 +102,14 @@ const routes: RouteObject[] = [
       </Layout>
     ),
   },
-
+  {
+    path: '/initservicio',
+    element: (
+        <Suspense fallback={<Loading />}>
+          <InitServicio />
+        </Suspense>
+    ),
+  },
 ];
 
 export default routes;

@@ -12,6 +12,7 @@ const AppRoutes = () => {
         <Route path="/booking" element={routes[6].element} />
         <Route path="/mis-reservas" element={routes[7].element} />
         <Route path="/servicios" element={routes[8].element} />
+        <Route path="/initservicio" element={routes[9].element} />
         
         {/* Protected routes */}
         <Route element={<PrivateRoute />}>

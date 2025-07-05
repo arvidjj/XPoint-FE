@@ -18,15 +18,16 @@ const createServicioSchema = z.object({
 
 type CreateServicioProps = {
   onSubmit: (data: CreateServicioRequest) => void;
+  disabled?: boolean;
 };
 
-export const CreateServicio = ({ onSubmit }: CreateServicioProps) => {
+export const CreateServicio = ({ onSubmit, disabled }: CreateServicioProps) => {
   const form = useForm({
     defaultValues: {
       nombre: "",
       descripcion: "",
-      precio: 0,
-      duracionMinutos: 0,
+      precio: 1,
+      duracionMinutos: 30,
       categoria: "",
     } as CreateServicioRequest,
     validators: {
@@ -49,6 +50,7 @@ export const CreateServicio = ({ onSubmit }: CreateServicioProps) => {
               variant="outlined"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              disabled={disabled}
               error={field.state.meta.errors.length > 0}
               helperText={
                 field.state.meta.errors
@@ -67,6 +69,7 @@ export const CreateServicio = ({ onSubmit }: CreateServicioProps) => {
               variant="outlined"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              disabled={disabled}
               helperText={
                 field.state.meta.errors
                   .map((e) => typeof e === "string" ? e : (e?.message || String(e)))
@@ -85,6 +88,7 @@ export const CreateServicio = ({ onSubmit }: CreateServicioProps) => {
               type="number"
               value={field.state.value}
               onChange={(e) => field.handleChange(Number(e.target.value))}
+              disabled={disabled}
               error={field.state.meta.errors.length > 0}
               helperText={
                 field.state.meta.errors
@@ -104,6 +108,7 @@ export const CreateServicio = ({ onSubmit }: CreateServicioProps) => {
               type="number"
               value={field.state.value}
               onChange={(e) => field.handleChange(Number(e.target.value))}
+              disabled={disabled}
               error={field.state.meta.errors.length > 0}
               helperText={
                 field.state.meta.errors
@@ -122,6 +127,7 @@ export const CreateServicio = ({ onSubmit }: CreateServicioProps) => {
               variant="outlined"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              disabled={disabled}
               error={field.state.meta.errors.length > 0}
               helperText={
                 field.state.meta.errors
@@ -133,7 +139,7 @@ export const CreateServicio = ({ onSubmit }: CreateServicioProps) => {
         </form.Field>
 
         <FormGroup>
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" disabled={disabled}>
             Crear Servicio
           </Button>
         </FormGroup>
